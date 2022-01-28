@@ -9,7 +9,7 @@ import { colors } from '../../../styles/common';
 import BlockingActionModal from '../../UI/BlockingActionModal';
 import { strings } from '../../../../locales/i18n';
 
-interface Props {
+interface IConnectQRHardwareProps {
 	navigation: any;
 }
 
@@ -19,14 +19,14 @@ const styles = StyleSheet.create({
 		flexDirection: 'column',
 		alignItems: 'center',
 		paddingHorizontal: 32,
-		paddingTop: 8,
+		paddingTop: 16,
 	},
 	close: {
 		alignSelf: 'flex-end',
-		width: 36,
-		height: 36,
-		alignItems: 'flex-end',
-		justifyContent: 'flex-end',
+		width: 48,
+		height: 48,
+		alignItems: 'center',
+		justifyContent: 'center',
 	},
 	qrcode: {
 		alignSelf: 'flex-start',
@@ -37,10 +37,11 @@ const styles = StyleSheet.create({
 	},
 });
 
-const ConnectQRHardware = ({ navigation }: Props) => {
-	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-	// @ts-ignore
-	const { KeyringController } = Engine.context;
+const ConnectQRHardware = ({ navigation }: IConnectQRHardwareProps) => {
+	const KeyringController = useMemo(() => {
+		const { KeyringController: keyring } = Engine.context as any;
+		return keyring;
+	}, []);
 	const [QRState, setQRState] = useState({
 		sync: {
 			reading: false,
@@ -170,7 +171,7 @@ const ConnectQRHardware = ({ navigation }: Props) => {
 				<Icon name="qrcode" size={42} style={styles.qrcode} />
 				{errorMsg !== '' && <Text style={styles.error}>{errorMsg}</Text>}
 				{accounts.length <= 0 ? (
-					<ConnectQRInstruction onConnect={onConnectHardware} navigation={navigation} />
+					<ConnectQRInstruction onConnect={onConnectHardware} />
 				) : (
 					<SelectQRAccounts
 						accounts={enhancedAccounts}
