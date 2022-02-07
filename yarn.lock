@@ -2112,13 +2112,13 @@
     web3 "^0.20.7"
     web3-provider-engine "^16.0.3"
 
-"@metamask/controllers@^22.0.0":
+"@metamask/controllers@git+https://github.com/KeystoneHQ/controllers.git#40eed9abae8638e0213045837c2799be2d63430d":
   version "22.0.0"
-  resolved "https://registry.yarnpkg.com/@metamask/controllers/-/controllers-22.0.0.tgz#54f172be2ae7e32ce47536a1ff06e35cc6ee3c80"
-  integrity sha512-5m4aT+B87IOAvvlbfgqI5n7Pd6VSQUjHBfm34qMBBL5jjUFUSfK6BL0h6ef2jxTE2VCuyBibQ8A7sETQ1+Hd+Q==
+  resolved "git+https://github.com/KeystoneHQ/controllers.git#40eed9abae8638e0213045837c2799be2d63430d"
   dependencies:
     "@ethereumjs/common" "^2.3.1"
     "@ethereumjs/tx" "^3.2.1"
+    "@keystonehq/metamask-airgapped-keyring" "^0.2.2-alpha.2"
     "@metamask/contract-metadata" "^1.31.0"
     "@types/uuid" "^8.3.0"
     abort-controller "^3.0.0"
