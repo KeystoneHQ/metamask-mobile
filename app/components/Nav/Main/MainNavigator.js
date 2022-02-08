@@ -52,6 +52,7 @@ import GasEducationCarousel from '../../Views/GasEducationCarousel';
 import CollectiblesDetails from '../../UI/CollectibleModal';
 import OptinMetrics from '../../UI/OptinMetrics';
 import Drawer from '../../UI/Drawer';
+import QRHardwareSigner from '../../Views/SendFlow/QRHardwareSigner';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -348,6 +349,7 @@ const MainNavigator = () => (
 		<Stack.Screen name="Webview" component={Webview} />
 		<Stack.Screen name="SettingsView" component={SettingsView} />
 		<Stack.Screen name="ImportPrivateKeyView" component={ImportPrivateKeyView} />
+		<Stack.Screen name="QRHardwareSigner" component={QRHardwareSigner} />
 		<Stack.Screen name="ConnectQRHardwareFlow" component={ConnectQRHardwareFlow} />
 		<Stack.Screen name="SendView" component={SendView} />
 		<Stack.Screen name="SendFlowView" component={SendFlowView} />

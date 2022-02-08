@@ -425,7 +425,7 @@ class Confirm extends PureComponent {
 	componentDidMount = async () => {
 		this.getGasLimit();
 
-		const { GasFeeController } = Engine.context;
+		const { GasFeeController, KeyringController } = Engine.context;
 		const pollToken = await GasFeeController.getGasFeeEstimatesAndStartPolling(this.state.pollToken);
 		this.setState({ pollToken });
 		// For analytics
@@ -436,6 +436,15 @@ class Confirm extends PureComponent {
 		navigation.setParams({ providerType, isPaymentRequest });
 		this.handleConfusables();
 		this.parseTransactionDataHeader();
+		KeyringController.getQRKeyringState().then((memstore) => {
+			memstore.subscribe((value) => {
+				if (value && value.sign && value.sign.request) {
+					navigation.navigate('QRHardwareSigner', {
+						QRState: value,
+					});
+				}
+			});
+		});
 	};
 
 	componentDidUpdate = (prevProps, prevState) => {
