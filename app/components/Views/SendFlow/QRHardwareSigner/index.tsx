@@ -1,8 +1,13 @@
-import React, { useState, Fragment, useMemo, useCallback } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useState, Fragment, useMemo, useCallback } from "react";
+import { StyleSheet, Text, View } from 'react-native';
 import Engine from '../../../../core/Engine';
 import AnimatedQRScannerModal from '../../ConnectQRHardware/AnimatedQRScanner';
 import AnimatedQRCode from './AnimatedQRCode';
+import StyledButton from '../../../UI/StyledButton/index.android';
+import { AddressFrom } from '../AddressInputs';
+import { getSendFlowTitle } from '../../../UI/Navbar';
+import { strings } from '../../../../../locales/i18n';
+import { colors, fontStyles } from '../../../../styles/common';
 
 interface IConnectQRHardwareProps {
 	navigation: any;
@@ -10,12 +15,60 @@ interface IConnectQRHardwareProps {
 }
 
 const styles = StyleSheet.create({
+	wrapper: {
+		flex: 1,
+		backgroundColor: colors.white,
+	},
 	container: {
+		flex: 1,
 		width: '100%',
 		flexDirection: 'column',
 		alignItems: 'center',
 		paddingHorizontal: 32,
-		paddingTop: 16,
+		backgroundColor: colors.white,
+	},
+	input: {
+		width: '100%',
+		marginTop: 30,
+		backgroundColor: colors.white,
+	},
+	title: {
+		flexDirection: 'row',
+		justifyContent: 'center',
+		marginTop: 54,
+		marginBottom: 30,
+	},
+	titleStrong: {
+		fontFamily: fontStyles.normal.fontFamily,
+		fontWeight: 'bold',
+		color: colors.black,
+	},
+	titleText: {
+		fontFamily: fontStyles.normal.fontFamily,
+		fontWeight: 'normal',
+		color: colors.black,
+	},
+	description: {
+		marginVertical: 54,
+		alignItems: 'center',
+		...fontStyles.normal,
+		fontSize: 14,
+	},
+	descriptionText: {
+		fontFamily: fontStyles.normal.fontFamily,
+		fontWeight: 'normal',
+		fontSize: 14,
+		color: colors.black,
+	},
+	buttonSignature: {
+		flexDirection: 'row',
+		alignItems: 'flex-end',
+		marginBottom: 16,
+	},
+	buttonSignatureText: {
+		flex: 1,
+		marginHorizontal: 24,
+		alignSelf: 'flex-end',
 	},
 });
 
@@ -25,6 +78,7 @@ const QRHardwareSigner = ({ navigation, route }: IConnectQRHardwareProps) => {
 		return keyring;
 	}, []);
 	const QRState = route.params?.QRState;
+	const { fromSelectedAddress, fromAccountName, fromAccountBalance } = route.params?.from;
 	const [scannerVisible, setScannerVisible] = useState(false);
 	const showScanner = useCallback(() => {
 		setScannerVisible(true);
@@ -36,37 +90,50 @@ const QRHardwareSigner = ({ navigation, route }: IConnectQRHardwareProps) => {
 	const onScanSuccess = useCallback(
 		(ur: string) => {
 			hideScanner();
-			// eslint-disable-next-line no-console
-			console.log(ur);
 			KeyringController.submitQRHardwareSignature(QRState.sign.request?.requestId, ur);
 			navigation.goBack();
 		},
 		[KeyringController, QRState.sign.request?.requestId, hideScanner, navigation]
 	);
-	const onScanError = useCallback(
-		(error: string) => {
-			hideScanner();
-			// eslint-disable-next-line no-console
-			console.log(error);
-		},
-		[hideScanner]
-	);
+	const onScanError = useCallback(() => {
+		hideScanner();
+	}, [hideScanner]);
 
 	return (
 		<Fragment>
-			<View style={styles.container}>
-				{QRState?.sign?.request && (
-					<View>
+			{QRState?.sign?.request && (
+				<View style={styles.wrapper}>
+					<View style={styles.container}>
+						<View style={styles.input}>
+							<AddressFrom
+								fromAccountAddress={fromSelectedAddress}
+								fromAccountName={fromAccountName}
+								fromAccountBalance={fromAccountBalance}
+								shouldShowFromLabel={false}
+								accountLabel={strings('transactions.sign_account_label')}
+								accountNameHighlighted
+							/>
+						</View>
+						<View style={styles.title}>
+							<Text style={styles.titleStrong}>{strings('transactions.sign_title_scan')}</Text>
+							<Text style={styles.titleText}>{strings('transactions.sign_title_device')}</Text>
+						</View>
 						<AnimatedQRCode
 							cbor={QRState.sign.request.payload.cbor}
 							type={QRState.sign.request.payload.type}
 						/>
-						<TouchableOpacity onPress={showScanner}>
-							<Text>send</Text>
-						</TouchableOpacity>
+						<View style={styles.description}>
+							<Text style={styles.descriptionText}>{strings('transactions.sign_description_1')}</Text>
+							<Text style={styles.descriptionText}>{strings('transactions.sign_description_2')}</Text>
+						</View>
 					</View>
-				)}
-			</View>
+					<View style={styles.buttonSignature}>
+						<StyledButton type={'sign'} containerStyle={styles.buttonSignatureText} onPress={showScanner}>
+							{strings('transactions.sign_get_signature')}
+						</StyledButton>
+					</View>
+				</View>
+			)}
 			<AnimatedQRScannerModal
 				visible={scannerVisible}
 				purpose={'sign'}
