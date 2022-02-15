@@ -228,6 +228,11 @@ const SendFlowView = () => (
 		<Stack.Screen name="SendTo" component={SendTo} options={SendTo.navigationOptions} />
 		<Stack.Screen name="Amount" component={Amount} options={Amount.navigationOptions} />
 		<Stack.Screen name="Confirm" component={Confirm} options={Confirm.navigationOptions} />
+		<Stack.Screen
+			name="QRHardwareSigner"
+			component={QRHardwareSigner}
+			options={QRHardwareSigner.navigationOptions}
+		/>
 	</Stack.Navigator>
 );
 
@@ -349,7 +354,6 @@ const MainNavigator = () => (
 		<Stack.Screen name="Webview" component={Webview} />
 		<Stack.Screen name="SettingsView" component={SettingsView} />
 		<Stack.Screen name="ImportPrivateKeyView" component={ImportPrivateKeyView} />
-		<Stack.Screen name="QRHardwareSigner" component={QRHardwareSigner} />
 		<Stack.Screen name="ConnectQRHardwareFlow" component={ConnectQRHardwareFlow} />
 		<Stack.Screen name="SendView" component={SendView} />
 		<Stack.Screen name="SendFlowView" component={SendFlowView} />

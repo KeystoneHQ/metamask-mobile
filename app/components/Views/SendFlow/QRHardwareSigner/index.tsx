@@ -78,4 +78,7 @@ const QRHardwareSigner = ({ navigation, route }: IConnectQRHardwareProps) => {
 	);
 };
 
+QRHardwareSigner.navigationOptions = ({ navigation, route }: IConnectQRHardwareProps) =>
+	getSendFlowTitle('send.sign', navigation, route);
+
 export default QRHardwareSigner;
