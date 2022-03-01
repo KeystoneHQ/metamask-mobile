@@ -62,7 +62,7 @@ import EditGasFee1559 from '../../../UI/EditGasFee1559';
 import EditGasFeeLegacy from '../../../UI/EditGasFeeLegacy';
 import CustomNonce from '../../../UI/CustomNonce';
 import AppConstants from '../../../../core/AppConstants';
-import { isQRHardwareAccount } from '../../../../util/address';
+import { getAddressAccountType, isQRHardwareAccount } from '../../../../util/address';
 
 const EDIT = 'edit';
 const EDIT_NONCE = 'edit_nonce';
@@ -382,7 +382,7 @@ class Confirm extends PureComponent {
 
 			return {
 				active_currency: { value: selectedAsset?.symbol, anonymous: true },
-				account_type: isQRHardwareAccount(fromSelectedAddress) ? 'QR' : undefined,
+				account_type: getAddressAccountType(fromSelectedAddress),
 				network_name: networkType,
 				chain_id: chainId,
 				gas_estimate_type: gasEstimateType,
@@ -871,6 +871,8 @@ class Confirm extends PureComponent {
 			if (!error.message.startsWith('KeystoneError#Tx_canceled')) {
 				Alert.alert(strings('transactions.transaction_error'), error && error.message, [{ text: 'OK' }]);
 				Logger.error(error, 'error while trying to send transaction (Confirm)');
+			} else {
+				AnalyticsV2.trackEvent(AnalyticsV2.ANALYTICS_EVENTS.QR_HARDWARE_TRANSACTION_CANCELED);
 			}
 		}
 		this.setState({ transactionConfirmed: false });

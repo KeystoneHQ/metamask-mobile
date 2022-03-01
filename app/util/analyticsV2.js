@@ -104,6 +104,8 @@ export const ANALYTICS_EVENTS_V2 = {
 	// QR HARDWARE WALLET
 	CONNECT_HARDWARE_WALLET: generateOpt('Clicked Connect Hardware Wallet'),
 	CONNECT_HARDWARE_WALLET_SUCCESS: generateOpt('Connected Account with: QR Hardware'),
+	QR_HARDWARE_TRANSACTION_CANCELED: generateOpt('User canceled QR hardware transaction'),
+	HARDWARE_WALLET_ERROR: generateOpt('Hardware wallet error'),
 };
 
 /**

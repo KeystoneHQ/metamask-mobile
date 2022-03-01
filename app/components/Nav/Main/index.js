@@ -74,6 +74,7 @@ import abi from 'human-standard-token-abi';
 import { createStackNavigator } from '@react-navigation/stack';
 import ReviewModal from '../../UI/ReviewModal';
 import usePrevious from '../../hooks/usePrevious';
+import AnalyticsV2 from '../../../util/analyticsV2';
 
 const Stack = createStackNavigator();
 const hstInterface = new ethers.utils.Interface(abi);
@@ -304,6 +305,8 @@ const Main = (props) => {
 						{ text: strings('navigation.ok') },
 					]);
 					Logger.error(error, 'error while trying to send transaction (Main)');
+				} else {
+					AnalyticsV2.trackEvent(AnalyticsV2.ANALYTICS_EVENTS.QR_HARDWARE_TRANSACTION_CANCELED);
 				}
 			}
 		},

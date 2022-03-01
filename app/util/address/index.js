@@ -82,6 +82,31 @@ export function isQRHardwareAccount(address) {
 }
 
 /**
+ * judge address's account type for tracking
+ *
+ * @param {String} address - String corresponding to an address
+ * @returns {String} - Returns address's account type
+ */
+export function getAddressAccountType(address) {
+	const { KeyringController } = Engine.context;
+	const { keyrings } = KeyringController.state;
+	const targetKeyring = keyrings.find((keyring) =>
+		keyring.accounts.map((account) => account.toLowerCase()).includes(address.toLowerCase())
+	);
+	if (targetKeyring) {
+		switch (targetKeyring.type) {
+			case KeyringTypes.qr:
+				return 'QR';
+			case KeyringTypes.simple:
+				return 'Imported';
+			default:
+				return 'MetaMask';
+		}
+	}
+	throw new Error(`The address: ${address} is not imported`);
+}
+
+/**
  * Validates an ENS name
  *
  * @param {String} name - String corresponding to an ENS name
