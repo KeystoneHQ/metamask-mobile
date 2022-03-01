@@ -3,6 +3,7 @@ import Engine from '../../core/Engine';
 import AppConstants from '../../core/AppConstants';
 import { strings } from '../../../locales/i18n';
 import { tlc } from '../general';
+import { KeyringTypes } from '@metamask/controllers';
 
 const { supportedTLDs } = AppConstants;
 
@@ -61,6 +62,23 @@ export async function importAccountFromPrivateKey(private_key) {
 	}
 	const { KeyringController } = Engine.context;
 	return KeyringController.importAccountWithStrategy('privateKey', [pkey]);
+}
+
+/**
+ * judge address is QR hardware account or not
+ *
+ * @param {String} address - String corresponding to an address
+ * @returns {Boolean} - Returns a boolean
+ */
+export function isQRHardwareAccount(address) {
+	const { KeyringController } = Engine.context;
+	const { keyrings } = KeyringController.state;
+	const qrKeyrings = keyrings.filter((keyring) => keyring.type === KeyringTypes.qr);
+	let qrAccounts = [];
+	for (const qrKeyring of qrKeyrings) {
+		qrAccounts = qrAccounts.concat(qrKeyring.accounts.map((account) => account.toLowerCase()));
+	}
+	return qrAccounts.includes(address.toLowerCase());
 }
 
 /**

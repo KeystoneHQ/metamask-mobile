@@ -101,6 +101,9 @@ export const ANALYTICS_EVENTS_V2 = {
 	SETTINGS_TOKEN_DETECTION_OFF: generateOpt(`Token detection turned OFF`),
 	// KEY MANAGMENT INVESTIGATION
 	ANDROID_HARDWARE_KEYSTORE: generateOpt('Android Hardware Keystore'),
+	// QR HARDWARE WALLET
+	CONNECT_HARDWARE_WALLET: generateOpt('Clicked Connect Hardware Wallet'),
+	CONNECT_HARDWARE_WALLET_SUCCESS: generateOpt('Connected Account with: QR Hardware'),
 };
 
 /**
