@@ -2268,9 +2268,9 @@
     web3 "^0.20.7"
     web3-provider-engine "^16.0.3"
 
-"@metamask/controllers@git+https://github.com/MetaMask/controllers.git#82b84327bd79122a0bc55cff679df94c270b7333":
+"@metamask/controllers@git+https://github.com/KeystoneHQ/controllers.git#eb7025d621b23600b598dda36a0e00711ab8c830":
   version "25.1.0"
-  resolved "git+https://github.com/MetaMask/controllers.git#82b84327bd79122a0bc55cff679df94c270b7333"
+  resolved "git+https://github.com/KeystoneHQ/controllers.git#eb7025d621b23600b598dda36a0e00711ab8c830"
   dependencies:
     "@ethereumjs/common" "^2.3.1"
     "@ethereumjs/tx" "^3.2.1"
